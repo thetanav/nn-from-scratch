@@ -18,6 +18,7 @@ class Value:
         out = Value(self.data + other.data, (self, other), "+")
 
         def _backward():
+            # the grad is same from the child
             self.grad += 1.0 * out.grad
             other.grad += 1.0 * out.grad
 
@@ -29,6 +30,7 @@ class Value:
         out = Value(self.data * other.data, (self, other), "*")
 
         def _backward():
+            # the grad is just multiplying the others coeff
             self.grad += other.data * out.grad
             other.grad += self.data * out.grad
 
@@ -43,6 +45,7 @@ class Value:
         out = Value(t, (self,), "tanh")
 
         def _backward():
+            # the grad
             self.grad += (1 - t**2) * out.grad
 
         out._backward = _backward
